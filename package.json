@@ -1,29 +1,20 @@
 {
   "name": "cvmeventi-countdown",
-  "version": "1.0.0",
-  "api_version": "1.0.0",
-  "support": {
-    "action": true,
-    "feedback": true,
-    "preset": true
-  },
-  "description": "",
-  "keywords": [
-    "CVM",
-    "Timer",
-    "Countdown",
-    "Clock"
-  ],
-  "manufacturer": "CVM Eventi",
+  "version": "2.0.0",
   "product": "Countdown",
-  "shortname": "cvmeventi-countdown",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "type": "module",
   "author": "CVM Eventi <matteo.piccina@cvm.it>",
   "license": "MIT",
   "dependencies": {
+    "@companion-module/base": "~1.4.1",
+    "got": "^13.0.0",
     "ws": "^7.2.1"
+  },
+  "devDependencies": {
+    "@companion-module/tools": "^1.2.1"
   }
 }
