@@ -6,8 +6,6 @@ import variables from './variables.js';
 import configFields from './configFields.js';
 import UpgradeScripts from './upgrades.js'
 import feedbacks from './feedbacks.js';
-var debug;
-var log;
 
 class CountdownInstance extends InstanceBase {
     constructor(internal) {
@@ -23,7 +21,6 @@ class CountdownInstance extends InstanceBase {
     }
 
     destroy() {
-        this.debug('destroy', this.id);
         this.updateStatus(InstanceStatus.Disconnected, "Disabled");
         this.oscListener.destroy();
 
@@ -35,8 +32,6 @@ class CountdownInstance extends InstanceBase {
 
     async init(config) {
         console.log('Countdown init');
-        debug = this.debug;
-        log = this.log;
         this.configUpdated(config);
         this.initWebSocket();
         this.initVariables();
