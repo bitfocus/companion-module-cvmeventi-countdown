@@ -172,7 +172,7 @@ export default {
                     value:  !isExpired ? this.progress : 100,
                     type: 'horizontal',
                     offsetX: 5,
-                    offsetY: 48,
+                    offsetY: feedback.image.height > 58 ? 62 : 48,
                     opacity: 255
                 }
 
