@@ -18,6 +18,7 @@ class CountdownInstance extends InstanceBase {
             ...feedbacks,
         });
         this.feedbackState = "NOT_RUNNING";
+        this.progress = 0;
     }
 
     destroy() {
@@ -118,6 +119,11 @@ class CountdownInstance extends InstanceBase {
 
             this.feedbackState = mapping[state];
             this.checkFeedbacks('state_color');
+        }
+
+        if ('timeSetOnCurrentTimer' in msgValue && 'currentTime' in msgValue) {
+            this.progress = parseInt(100 * msgValue['currentTime'] / msgValue['timeSetOnCurrentTimer'])
+            this.checkFeedbacks('progress_bar');
         }
 
         let variableValues = {};

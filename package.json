@@ -1,6 +1,6 @@
 {
   "name": "cvmeventi-countdown",
-  "version": "2.0.2",
+  "version": "2.1.0",
   "product": "Countdown",
   "main": "index.js",
   "scripts": {
@@ -11,6 +11,7 @@
   "license": "MIT",
   "dependencies": {
     "@companion-module/base": "~1.4.1",
+    "companion-module-utils": "^0.2.0",
     "got": "^13.0.0",
     "ws": "^7.2.1"
   },
