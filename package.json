@@ -13,7 +13,7 @@
     "@companion-module/base": "~1.4.1",
     "companion-module-utils": "^0.2.0",
     "got": "^13.0.0",
-    "ws": "^7.2.1"
+    "ws": "^7.5.10"
   },
   "devDependencies": {
     "@companion-module/tools": "^1.2.1"
