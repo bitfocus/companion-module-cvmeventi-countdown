@@ -1,21 +1,46 @@
 {
   "name": "cvmeventi-countdown",
-  "version": "2.1.1",
+  "version": "2.9.9",
   "product": "Countdown",
-  "main": "index.js",
+  "main": "dist/main.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "postinstall": "husky",
+    "format": "prettier -w .",
+    "package": "run build && companion-module-build",
+    "build": "rimraf dist && run build:main",
+    "build:main": "tsc -p tsconfig.build.json",
+    "dev": "tsc -p tsconfig.build.json --watch",
+    "lint:raw": "eslint",
+    "lint": "run lint:raw ."
   },
   "type": "module",
   "author": "CVM Eventi <matteo.piccina@cvm.it>",
   "license": "MIT",
   "dependencies": {
-    "@companion-module/base": "~1.4.1",
+    "@companion-module/base": "^1.11.3",
     "companion-module-utils": "^0.2.0",
     "got": "^13.0.0",
     "ws": "^7.5.10"
   },
   "devDependencies": {
-    "@companion-module/tools": "^1.2.1"
-  }
+    "@companion-module/tools": "^2.1.1",
+    "@types/node": "^22.10.2",
+    "@types/ws": "^8.5.14",
+    "husky": "^9.1.7",
+    "lint-staged": "^15.2.11",
+    "prettier": "^3.4.2",
+    "rimraf": "^6.0.1",
+    "typescript": "~5.5.4",
+    "typescript-eslint": "^8.18.1"
+  },
+  "prettier": "@companion-module/tools/.prettierrc.json",
+  "lint-staged": {
+    "*.{css,json,md,scss}": [
+      "prettier --write"
+    ],
+    "*.{ts,tsx,js,jsx}": [
+      "yarn lint:raw --fix"
+    ]
+  },
+  "packageManager": "yarn@1.22.22+sha512.a6b2f7906b721bba3d67d4aff083df04dad64c399707841b7acf00f6b133b7ac24255f2652fa22ae3534329dc6180534e98d17432037ff6fd140556e2bb3137e"
 }
