@@ -3,7 +3,7 @@
 	"name": "cvmeventi-countdown",
 	"shortname": "cvmeventi-countdown",
 	"description": "",
-	"version": "2.9.9",
+	"version": "2.9.11",
 	"license": "MIT",
 	"repository": "https://github.com/bitfocus/companion-module-cvmeventi-countdown.git",
 	"bugs": "https://github.com/bitfocus/companion-module-cvmeventi-countdown/issues",
