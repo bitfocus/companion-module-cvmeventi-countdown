@@ -79,6 +79,10 @@ export function UpdateVariableDefinitions(self: ModuleInstance): void {
       name: 'Set time (seconds only)',
       variableId: 'setTimeS'
     },
+    {
+      name: 'Timer ends at (mm:ss)',
+      variableId: 'timerEndsAt'
+    }
   ]
 
   let variables: CompanionVariableDefinition[] = []
@@ -113,6 +117,7 @@ export function UpdateVariableDefinitions(self: ModuleInstance): void {
       [`${key}-setTimeM`]: '00',
       [`${key}-setTimeS`]: '00',
       [`${key}-setTime`]: '0',
+      [`${key}-timerEndsAt`]: '00:00',
     }
   })
 
