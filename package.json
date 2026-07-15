@@ -20,7 +20,7 @@
     "@companion-module/base": "2.0.4",
     "companion-module-utils": "^0.2.0",
     "got": "^13.0.0",
-    "ws": "^7.5.10"
+    "ws": "^7.5.11"
   },
   "devDependencies": {
     "@companion-module/tools": "^3.0.2",
