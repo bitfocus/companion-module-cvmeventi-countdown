@@ -1,6 +1,6 @@
 {
   "name": "cvmeventi-countdown",
-  "version": "3.0.1",
+  "version": "3.0.2",
   "product": "Countdown",
   "main": "dist/main.js",
   "scripts": {
