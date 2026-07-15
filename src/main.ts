@@ -1,12 +1,12 @@
-import { InstanceBase, runEntrypoint, InstanceStatus, SomeCompanionConfigField } from '@companion-module/base'
-import { GetConfigFields, type ModuleConfig } from './config.js'
+import { InstanceBase, InstanceStatus } from '@companion-module/base'
+import { GetConfigFields, type ModuleConfig, type ModuleTypes } from './config.js'
 import { UpdateVariableDefinitions } from './variables.js'
 import { UpgradeScripts } from './upgrades.js'
 import { UpdateActions } from './actions.js'
 import { UpdateFeedbacks } from './feedbacks.js'
 import WebSocket from 'ws'
 import {UpdatePresets} from './presets.js'
-import {CompanionVariableValues} from '@companion-module/base/dist/index.js'
+import type { CompanionVariableValues, SomeCompanionConfigField } from '@companion-module/base'
 
 interface TimerState {
   state: string
@@ -43,7 +43,7 @@ interface Timers {
   [key: string]: Timer
 }
 
-export class ModuleInstance extends InstanceBase<ModuleConfig> {
+export default class ModuleInstance extends InstanceBase<ModuleTypes> {
   config!: ModuleConfig // Setup in init()
   timers: Timers = {}
   ws: WebSocket|null = null
@@ -60,22 +60,25 @@ export class ModuleInstance extends InstanceBase<ModuleConfig> {
     await this.configUpdated(config);
 
     if ((await this.loadTimers())) {
-      this.updateVariableDefinitions() // export variable definitions
-      this.updateActions() // export actions
-      this.updateFeedbacks() // export feedbacks
-      this.log('debug', JSON.stringify(this.timers));
-      this.updatePresets();
+      this.updateModule()
       this.log('debug', "Countdown module initiated");
       this.updateStatus(InstanceStatus.Ok);
     } else {
       this.updateStatus(InstanceStatus.ConnectionFailure)
     }
   }
+
+  updateModule() {
+    this.updateVariableDefinitions()
+    this.updateActions()
+    this.updateFeedbacks()
+    this.updatePresets();
+  }
+
   // When module gets deleted
   async destroy(): Promise<void> {
     this.log('debug', 'destroy')
     this.updateStatus(InstanceStatus.Disconnected, "Disabled");
-
   }
 
   async loadTimers() {
@@ -140,9 +143,6 @@ export class ModuleInstance extends InstanceBase<ModuleConfig> {
     this.ws.on('open', () => {
       this.log('debug', `Connection opened`);
       this.updateStatus(InstanceStatus.Ok);
-      /*if (this.config.reset_variables) {
-        this.updateVariables();
-      }*/
     })
     this.ws.on('close', (code) => {
       this.log('debug', `Connection closed with code ${code}`);
@@ -198,8 +198,11 @@ export class ModuleInstance extends InstanceBase<ModuleConfig> {
         variableValues[`${update.timerId}-${key}`] = update[key];
       });
       this.setVariableValues(variableValues);
+    } else if (msgValue.type === 'config') {
+      this.timers = update as Timers;
+      this.updateModule()
     }
   }
 }
 
-runEntrypoint(ModuleInstance, UpgradeScripts)
+export { UpgradeScripts };

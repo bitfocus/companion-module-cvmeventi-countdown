@@ -1,8 +1,12 @@
-import { Regex, type SomeCompanionConfigField } from '@companion-module/base'
+import { type InstanceTypes, type JsonObject, Regex, type SomeCompanionConfigField } from '@companion-module/base'
 
-export interface ModuleConfig {
+export interface ModuleConfig extends JsonObject {
   ip: string
   port: number
+}
+
+export interface ModuleTypes extends InstanceTypes {
+  config: ModuleConfig
 }
 
 export function GetConfigFields(): SomeCompanionConfigField[] {
@@ -13,6 +17,7 @@ export function GetConfigFields(): SomeCompanionConfigField[] {
       label: 'IP',
       width: 12,
       regex: Regex.IP,
+      default: '127.0.0.1',
     },
     {
       type: 'number',

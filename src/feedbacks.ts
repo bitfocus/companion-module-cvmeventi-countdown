@@ -1,7 +1,8 @@
-import {combineRgb, CompanionAdvancedFeedbackResult, CompanionFeedbackDefinitions} from '@companion-module/base'
-import type { ModuleInstance } from './main.js'
+import type { CompanionAdvancedFeedbackResult, CompanionFeedbackDefinitions, CompanionInputFieldDropdown } from '@companion-module/base'
+import {combineRgb} from '@companion-module/base'
+import type ModuleInstance from './main.js'
 import {graphics} from 'companion-module-utils'
-import {CompanionInputFieldDropdown} from '@companion-module/base/dist/index.js'
+import { Buffer } from 'node:buffer'
 
 const black = combineRgb(0,0,0);
 const white = combineRgb(255,255,255);
@@ -218,7 +219,7 @@ export function UpdateFeedbacks(self: ModuleInstance): void {
       }
 
       return {
-        imageBuffer: graphics.bar(options)
+        imageBuffer: Buffer.from(graphics.bar(options)).toString('base64'),
       }
     },
   }

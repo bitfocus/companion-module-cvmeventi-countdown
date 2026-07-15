@@ -1,100 +1,78 @@
-import type { ModuleInstance } from './main.js'
-import {CompanionVariableDefinition, CompanionVariableValues} from '@companion-module/base/dist/index.js'
+import type ModuleInstance from './main.js'
+import type { CompanionVariableValues, CompanionVariableDefinitions } from '@companion-module/base'
 
 export function UpdateVariableDefinitions(self: ModuleInstance): void {
-  const variableDefs = [
-    {
-      name: 'State of timer (Not Running, Running, Paused, Expired)',
-      variableId: 'state'
-    },
-    {
-      name: 'Current time (hh:mm:ss)',
-      variableId: 'currentTimeHms'
-    },
-    {
-      name: 'Current time (mm:ss)',
-      variableId: 'currentTimeMs'
-    },
-    {
-      name: 'Current time (hours only)',
-      variableId: 'currentTimeH'
-    },
-    {
-      name: 'Current time (minutes only)',
-      variableId: 'currentTimeM'
-    },
-    {
-      name: 'Current time (seconds only)',
-      variableId: 'currentTimeS'
-    },
-    {
-      name: 'Current time (in seconds)',
-      variableId: 'currentTime'
-    },
-    {
-      name: 'Time set on current timer (hh:mm:ss)',
-      variableId: 'timeSetOnCurrentTimerHms'
-    },
-    {
-      name: 'Time set on current timer (mm:ss)',
-      variableId: 'timeSetOnCurrentTimerMs'
-    },
-    {
-      name: 'Time set on current timer (hours only)',
-      variableId: 'timeSetOnCurrentTimerH'
-    },
-    {
-      name: 'Time set on current timer (minutes only)',
-      variableId: 'timeSetOnCurrentTimerM'
-    },
-    {
-      name: 'Time set on current timer (seconds only)',
-      variableId: 'timeSetOnCurrentTimerS'
-    },
-    {
-      name: 'Time set on current timer (in seconds)',
-      variableId: 'timeSetOnCurrentTimer'
-    },
-    {
-      name: 'Set time (in seconds)',
-      variableId: 'setTime'
-    },
-    {
-      name: 'Set time (hh:mm:ss)',
-      variableId: 'setTimeHms'
-    },
-    {
-      name: 'Set time (mm:ss)',
-      variableId: 'setTimeMs'
-    },
-    {
-      name: 'Set time (hours only)',
-      variableId: 'setTimeH'
-    },
-    {
-      name: 'Set time (minutes only)',
-      variableId: 'setTimeM'
-    },
-    {
-      name: 'Set time (seconds only)',
-      variableId: 'setTimeS'
-    },
-    {
-      name: 'Timer ends at (mm:ss)',
-      variableId: 'timerEndsAt'
-    }
-  ]
+  const variableDefs: CompanionVariableDefinitions = {
+  state: {
+    name: 'State of timer (Not Running, Running, Paused, Expired)',
+  },
+  currentTimeHms: {
+    name: 'Current time (hh:mm:ss)',
+  },
+  currentTimeMs: {
+    name: 'Current time (mm:ss)',
+  },
+  currentTimeH: {
+    name: 'Current time (hours only)',
+  },
+  currentTimeM: {
+    name: 'Current time (minutes only)',
+  },
+  currentTimeS: {
+    name: 'Current time (seconds only)',
+  },
+  currentTime: {
+    name: 'Current time (in seconds)',
+  },
+  timeSetOnCurrentTimerHms: {
+    name: 'Time set on current timer (hh:mm:ss)',
+  },
+  timeSetOnCurrentTimerMs: {
+    name: 'Time set on current timer (mm:ss)',
+  },
+  timeSetOnCurrentTimerH: {
+    name: 'Time set on current timer (hours only)',
+  },
+  timeSetOnCurrentTimerM: {
+    name: 'Time set on current timer (minutes only)',
+  },
+  timeSetOnCurrentTimerS: {
+    name: 'Time set on current timer (seconds only)',
+  },
+  timeSetOnCurrentTimer: {
+    name: 'Time set on current timer (in seconds)',
+  },
+  setTime: {
+    name: 'Set time (in seconds)',
+  },
+  setTimeHms: {
+    name: 'Set time (hh:mm:ss)',
+  },
+  setTimeMs: {
+    name: 'Set time (mm:ss)',
+  },
+  setTimeH: {
+    name: 'Set time (hours only)',
+  },
+  setTimeM: {
+    name: 'Set time (minutes only)',
+  },
+  setTimeS: {
+    name: 'Set time (seconds only)',
+  },
+  timerAndsAt: {
+    name: 'Timer ends at (mm:ss)',
+  }
+}
 
-  let variables: CompanionVariableDefinition[] = []
+  let variables: CompanionVariableDefinitions = {}
   let defaultValues: CompanionVariableValues = {}
   Object.keys(self.timers).forEach(key => {
-    variableDefs.forEach(genericDefinition => {
-      const definition = {
-        name: `${self.timers[key].name} - ${genericDefinition.name}`,
-        variableId: `${key}-${genericDefinition.variableId}`,
+    for (const [defKey, defValue] of Object.entries(variableDefs)) {
+      variables[`${key}-${defKey}`] = {
+        name: `${self.timers[key].name} - ${defValue.name}`,
       }
-      variables.push(definition)
-    })
+    }
 
     defaultValues = {
       ...defaultValues,

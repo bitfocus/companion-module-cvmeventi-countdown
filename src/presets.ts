@@ -1,5 +1,6 @@
-import type { ModuleInstance } from './main.js'
-import {combineRgb, CompanionPresetDefinitions} from '@companion-module/base'
+import type { CompanionPresetDefinitions, CompanionPresetGroup, CompanionPresetSection } from '@companion-module/base'
+import type ModuleInstance from './main.js'
+import { combineRgb } from '@companion-module/base'
 
 const black = combineRgb(0,0,0);
 const white = combineRgb(255,255,255);
@@ -13,14 +14,14 @@ export function UpdatePresets(self: ModuleInstance): void {
 
   const minutes = [5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60];
 
-  Object.keys(self.timers).forEach(key => {
+  Object.keys(self.timers).forEach((timerId) => {
     // Time Presets (set only)
     minutes.forEach((minute) => {
-      presets[`${key}-timePreset${minute}`] = {
-        category: `${self.timers[key].name}: Time Presets`,
+      presets[`${timerId}-timePreset${minute}`] = {
+        //category: `${self.timers[key].name}: Time Presets`,
         feedbacks: [],
         name: `${minute}m`,
-        type: 'button',
+        type: 'simple',
         style: {
           text: `${minute}`,
           size: '30',
@@ -31,24 +32,27 @@ export function UpdatePresets(self: ModuleInstance): void {
           down: [{
             actionId: 'set',
             options: {
-              timerId: key,
+              timerId: { isExpression: true, value: `$(local:timer)` },
               hours: minute > 59 ? 1 : 0,
               minutes: minute < 60 ? minute : 0,
               seconds: 0,
             }
           }],
           up: [],
-        }]
+        }],
+        localVariables: [
+          { variableType: 'simple', variableName: 'timer', startupValue: timerId, headline: 'Timer ID' }
+        ]
       }
     })
 
     // Time Presets (auto start)
     minutes.forEach((minute) => {
-      presets[`${key}-timePresetAS${minute}`] = {
-        category: `${self.timers[key].name}: Time Presets (auto start)`,
+      presets[`${timerId}-timePresetAS${minute}`] = {
+        //category: `${self.timers[key].name}: Time Presets (auto start)`,
         feedbacks: [],
         name: `${minute}m`,
-        type: 'button',
+        type: 'simple',
         style: {
           text: `${minute}`,
           size: '30',
@@ -59,7 +63,7 @@ export function UpdatePresets(self: ModuleInstance): void {
           down: [{
             actionId: 'set',
             options: {
-              timerId: key,
+              timerId: { isExpression: true, value: `$(local:timer)` },
               hours: minute > 59 ? 1 : 0,
               minutes: minute < 60 ? minute : 0,
               seconds: 0,
@@ -68,18 +72,21 @@ export function UpdatePresets(self: ModuleInstance): void {
             {
               actionId: 'start',
               delay: 100,
-              options: {timerId: key},
+              options: {timerId: { isExpression: true, value: `$(local:timer)` }},
             }],
           up: [],
-        }]
+        }],
+        localVariables: [
+          { variableType: 'simple', variableName: 'timer', startupValue: timerId, headline: 'Timer ID' }
+        ]
       };
     })
 
-    presets.startTimer = {
-      category: `${self.timers[key].name}: Control`,
+    presets[`${timerId}-startTimer`] = {
+      //category: `${self.timers[key].name}: Control`,
       feedbacks: [],
       name: 'Start Timer',
-      type: 'button',
+      type: 'simple',
       style: {
         text: '⏵',
         size: '30',
@@ -89,16 +96,19 @@ export function UpdatePresets(self: ModuleInstance): void {
       steps: [{
         down: [{
           actionId: 'start',
-          options: {timerId: key},
+          options: {timerId: { isExpression: true, value: `$(local:timer)` }},
         }],
         up: [],
-      }]
+      }],
+      localVariables: [
+        { variableType: 'simple', variableName: 'timer', startupValue: timerId, headline: 'Timer ID' }
+      ]
     };
-    presets.pauseTimer = {
-      category: `${self.timers[key].name}: Control`,
+    presets[`${timerId}-pauseTimer`] = {
+      //category: `${self.timers[key].name}: Control`,
       feedbacks: [],
       name: 'Pause Timer',
-      type: 'button',
+      type: 'simple',
       style: {
         text: '⏸',
         size: '30',
@@ -108,16 +118,19 @@ export function UpdatePresets(self: ModuleInstance): void {
       steps: [{
         down: [{
           actionId: 'pause',
-          options: {timerId: key},
+          options: {timerId: { isExpression: true, value: `$(local:timer)` }},
         }],
         up: [],
-      }]
+      }],
+      localVariables: [
+        { variableType: 'simple', variableName: 'timer', startupValue: timerId, headline: 'Timer ID' }
+      ]
     };
-    presets.toggleTimer = {
-      category: `${self.timers[key].name}: Control`,
+    presets[`${timerId}-toggleTimer`] = {
+      //category: `${self.timers[key].name}: Control`,
       feedbacks: [],
       name: 'Toggle Pause/Resume Timer',
-      type: 'button',
+      type: 'simple',
       style: {
         text: '⏯',
         size: '30',
@@ -127,16 +140,19 @@ export function UpdatePresets(self: ModuleInstance): void {
       steps: [{
         down: [{
           actionId: 'toggle',
-          options: {timerId: key},
+          options: {timerId: { isExpression: true, value: `$(local:timer)` }},
         }],
         up: [],
-      }]
+      }],
+      localVariables: [
+        { variableType: 'simple', variableName: 'timer', startupValue: timerId, headline: 'Timer ID' }
+      ]
     };
-    presets.resumeTimer = {
-      category: `${self.timers[key].name}: Control`,
+    presets[`${timerId}-resumeTimer`] = {
+      //category: `${self.timers[key].name}: Control`,
       feedbacks: [],
       name: 'Resume Timer',
-      type: 'button',
+      type: 'simple',
       style: {
         text: 'Resume',
         size: '18',
@@ -146,16 +162,19 @@ export function UpdatePresets(self: ModuleInstance): void {
       steps: [{
         down: [{
           actionId: 'resume',
-          options: {timerId: key},
+          options: {timerId: { isExpression: true, value: `$(local:timer)` }},
         }],
         up: [],
-      }]
+      }],
+      localVariables: [
+        { variableType: 'simple', variableName: 'timer', startupValue: timerId, headline: 'Timer ID' }
+      ]
     };
-    presets.resetTimer = {
-      category: `${self.timers[key].name}: Control`,
+    presets[`${timerId}-resetTimer`] = {
+      //category: `${self.timers[key].name}: Control`,
       feedbacks: [],
       name: 'Reset Timer',
-      type: 'button',
+      type: 'simple',
       style: {
         text: 'Reset',
         size: '18',
@@ -165,16 +184,19 @@ export function UpdatePresets(self: ModuleInstance): void {
       steps: [{
         down: [{
           actionId: 'reset',
-          options: {timerId: key},
+          options: {timerId: { isExpression: true, value: `$(local:timer)` }},
         }],
         up: [],
-      }]
+      }],
+      localVariables: [
+        { variableType: 'simple', variableName: 'timer', startupValue: timerId, headline: 'Timer ID' }
+      ]
     };
-    presets.jogSetTimerPlus1 = {
-      category: `${self.timers[key].name}: Jog Set Timer`,
+    presets[`${timerId}-jogSetTimerPlus1`] = {
+      //category: `${self.timers[key].name}: Jog Set Timer`,
       feedbacks: [],
       name: '+1 Jog Set Timer',
-      type: 'button',
+      type: 'simple',
       style: {
         text: '+1',
         size: '30',
@@ -185,20 +207,23 @@ export function UpdatePresets(self: ModuleInstance): void {
         down: [{
           actionId: 'jog-set',
           options: {
-            timerId: key,
+            timerId: { isExpression: true, value: `$(local:timer)` },
             hours: 0,
             minutes: 1,
             seconds: 0,
           },
         }],
         up: [],
-      }]
+      }],
+      localVariables: [
+        { variableType: 'simple', variableName: 'timer', startupValue: timerId, headline: 'Timer ID' }
+      ]
     };
-    presets.jogSetTimerPlus5 = {
-      category: `${self.timers[key].name}: Jog Set Timer`,
+    presets[`${timerId}-jogSetTimerPlus5`] = {
+      //category: `${self.timers[key].name}: Jog Set Timer`,
       feedbacks: [],
       name: '+5 Jog Set Timer',
-      type: 'button',
+      type: 'simple',
       style: {
         text: '+5',
         size: '30',
@@ -209,20 +234,23 @@ export function UpdatePresets(self: ModuleInstance): void {
         down: [{
           actionId: 'jog-set',
           options: {
-            timerId: key,
+            timerId: { isExpression: true, value: `$(local:timer)` },
             hours: 0,
             minutes: 5,
             seconds: 0,
           },
         }],
         up: [],
-      }]
+      }],
+      localVariables: [
+        { variableType: 'simple', variableName: 'timer', startupValue: timerId, headline: 'Timer ID' }
+      ]
     };
-    presets.jogSetTimerPlus10 = {
-      category: `${self.timers[key].name}: Jog Set Timer`,
+    presets[`${timerId}-jogSetTimerPlus10`] = {
+      //category: `${self.timers[key].name}: Jog Set Timer`,
       feedbacks: [],
       name: '+10 Jog Set Timer',
-      type: 'button',
+      type: 'simple',
       style: {
         text: '+10',
         size: '30',
@@ -233,20 +261,23 @@ export function UpdatePresets(self: ModuleInstance): void {
         down: [{
           actionId: 'jog-set',
           options: {
-            timerId: key,
+            timerId: { isExpression: true, value: `$(local:timer)` },
             hours: 0,
             minutes: 10,
             seconds: 0,
           },
         }],
         up: [],
-      }]
+      }],
+      localVariables: [
+        { variableType: 'simple', variableName: 'timer', startupValue: timerId, headline: 'Timer ID' }
+      ]
     };
-    presets.jogSetTimerMinus1 = {
-      category: `${self.timers[key].name}: Jog Set Timer`,
+    presets[`${timerId}-jogSetTimerMinus1`] = {
+      //category: `${self.timers[key].name}: Jog Set Timer`,
       feedbacks: [],
       name: '-1 Jog Set Timer',
-      type: 'button',
+      type: 'simple',
       style: {
         text: '-1',
         size: '30',
@@ -257,7 +288,7 @@ export function UpdatePresets(self: ModuleInstance): void {
         down: [{
           actionId: 'jog-set',
           options: {
-            timerId: key,
+            timerId: { isExpression: true, value: `$(local:timer)` },
             hours: 0,
             minutes: -1,
             seconds: 0,
@@ -266,11 +297,12 @@ export function UpdatePresets(self: ModuleInstance): void {
         up: [],
       }]
     };
-    presets.jogSetTimerMinus5 = {
-      category: `${self.timers[key].name}: Jog Set Timer`,
+
+    presets[`${timerId}-jogSetTimerMinus5`] = {
+      //category: `${self.timers[key].name}: Jog Set Timer`,
       feedbacks: [],
       name: '-5 Jog Set Timer',
-      type: 'button',
+      type: 'simple',
       style: {
         text: '-5',
         size: '30',
@@ -281,7 +313,7 @@ export function UpdatePresets(self: ModuleInstance): void {
         down: [{
           actionId: 'jog-set',
           options: {
-            timerId: key,
+            timerId: { isExpression: true, value: `$(local:timer)` },
             hours: 0,
             minutes: -5,
             seconds: 0,
@@ -290,11 +322,11 @@ export function UpdatePresets(self: ModuleInstance): void {
         up: [],
       }]
     };
-    presets.jogSetTimerMinus10 = {
-      category: `${self.timers[key].name}: Jog Set Timer`,
+    presets[`${timerId}-jogSetTimerMinus10`] = {
+      //category: `${self.timers[key].name}: Jog Set Timer`,
       feedbacks: [],
       name: '-10 Jog Set Timer',
-      type: 'button',
+      type: 'simple',
       style: {
         text: '-10',
         size: '30',
@@ -305,7 +337,7 @@ export function UpdatePresets(self: ModuleInstance): void {
         down: [{
           actionId: 'jog-set',
           options: {
-            timerId: key,
+            timerId: { isExpression: true, value: `$(local:timer)` },
             hours: 0,
             minutes: -10,
             seconds: 0,
@@ -314,11 +346,11 @@ export function UpdatePresets(self: ModuleInstance): void {
         up: [],
       }]
     };
-    presets.jogCurrentTimerPlus1 = {
-      category: `${self.timers[key].name}: Jog Current Timer`,
+    presets[`${timerId}-jogCurrentTimerPlus1`] = {
+      //category: `${self.timers[key].name}: Jog Current Timer`,
       feedbacks: [],
       name: '+1 Jog Current Timer',
-      type: 'button',
+      type: 'simple',
       style: {
         text: '+1',
         size: '30',
@@ -329,7 +361,7 @@ export function UpdatePresets(self: ModuleInstance): void {
         down: [{
           actionId: 'jog-current',
           options: {
-            timerId: key,
+            timerId: { isExpression: true, value: `$(local:timer)` },
             hours: 0,
             minutes: 1,
             seconds: 0,
@@ -338,11 +370,11 @@ export function UpdatePresets(self: ModuleInstance): void {
         up: [],
       }]
     };
-    presets.jogCurrentTimerPlus5 = {
-      category: `${self.timers[key].name}: Jog Current Timer`,
+    presets[`${timerId}-jogCurrentTimerPlus5`] = {
+      //category: `${self.timers[key].name}: Jog Current Timer`,
       feedbacks: [],
       name: '+5 Jog Current Timer',
-      type: 'button',
+      type: 'simple',
       style: {
         text: '+5',
         size: '30',
@@ -353,7 +385,7 @@ export function UpdatePresets(self: ModuleInstance): void {
         down: [{
           actionId: 'jog-current',
           options: {
-            timerId: key,
+            timerId: { isExpression: true, value: `$(local:timer)` },
             hours: 0,
             minutes: 5,
             seconds: 0,
@@ -362,11 +394,11 @@ export function UpdatePresets(self: ModuleInstance): void {
         up: [],
       }]
     };
-    presets.jogCurrentTimerPlus10 = {
-      category: `${self.timers[key].name}: Jog Current Timer`,
+    presets[`${timerId}-jogCurrentTimerPlus10`] = {
+      //category: `${self.timers[key].name}: Jog Current Timer`,
       feedbacks: [],
       name: '+10 Jog Current Timer',
-      type: 'button',
+      type: 'simple',
       style: {
         text: '+10',
         size: '30',
@@ -377,7 +409,7 @@ export function UpdatePresets(self: ModuleInstance): void {
         down: [{
           actionId: 'jog-current',
           options: {
-            timerId: key,
+            timerId: { isExpression: true, value: `$(local:timer)` },
             hours: 0,
             minutes: 10,
             seconds: 0,
@@ -386,11 +418,11 @@ export function UpdatePresets(self: ModuleInstance): void {
         up: [],
       }]
     };
-    presets.jogCurrentTimerMinus1 = {
-      category: `${self.timers[key].name}: Jog Current Timer`,
+    presets[`${timerId}-jogCurrentTimerMinus1`] = {
+      //category: `${self.timers[key].name}: Jog Current Timer`,
       feedbacks: [],
       name: '-1 Jog Current Timer',
-      type: 'button',
+      type: 'simple',
       style: {
         text: '-1',
         size: '30',
@@ -401,7 +433,7 @@ export function UpdatePresets(self: ModuleInstance): void {
         down: [{
           actionId: 'jog-current',
           options: {
-            timerId: key,
+            timerId: { isExpression: true, value: `$(local:timer)` },
             hours: 0,
             minutes: -1,
             seconds: 0,
@@ -410,11 +442,11 @@ export function UpdatePresets(self: ModuleInstance): void {
         up: [],
       }]
     };
-    presets.jogCurrentTimerMinus5 = {
-      category: `${self.timers[key].name}: Jog Current Timer`,
+    presets[`${timerId}-jogCurrentTimerMinus5`] = {
+      //category: `${self.timers[key].name}: Jog Current Timer`,
       feedbacks: [],
       name: '-5 Jog Current Timer',
-      type: 'button',
+      type: 'simple',
       style: {
         text: '-5',
         size: '30',
@@ -425,7 +457,7 @@ export function UpdatePresets(self: ModuleInstance): void {
         down: [{
           actionId: 'jog-current',
           options: {
-            timerId: key,
+            timerId: { isExpression: true, value: `$(local:timer)` },
             hours: 0,
             minutes: -5,
             seconds: 0,
@@ -434,11 +466,11 @@ export function UpdatePresets(self: ModuleInstance): void {
         up: [],
       }]
     };
-    presets.jogCurrentTimerMinus10 = {
-      category: `${self.timers[key].name}: Jog Current Timer`,
+    presets[`${timerId}-jogCurrentTimerMinus10`] = {
+      //category: `${self.timers[key].name}: Jog Current Timer`,
       feedbacks: [],
       name: '-10 Jog Current Timer',
-      type: 'button',
+      type: 'simple',
       style: {
         text: '-10',
         size: '30',
@@ -449,7 +481,7 @@ export function UpdatePresets(self: ModuleInstance): void {
         down: [{
           actionId: 'jog-current',
           options: {
-            timerId: key,
+            timerId: { isExpression: true, value: `$(local:timer)` },
             hours: 0,
             minutes: -10,
             seconds: 0,
@@ -458,30 +490,30 @@ export function UpdatePresets(self: ModuleInstance): void {
         up: [],
       }]
     };
-    presets[`${key}-currentTimeHms`] = {
-      category: `${self.timers[key].name}: Current Time`,
+    presets[`${timerId}-currentTimeHms`] = {
+      //category: `${self.timers[key].name}: Current Time`,
       feedbacks: [
         {
           feedbackId: 'state_color',
           options: {
-            'timerId': key,
-            'colRunningFg': white,
-            'colRunningBg': green,
-            'colPausedFg': white,
-            'colPausedBg': grey,
-            'colExpiringFg': black,
-            'colExpiringBg': yellow,
-            'colExpiredFg': white,
-            'colExpiredBg': red,
-            'colNotRunningFg': white,
-            'colNotRunningBg': black
+            timerId: { isExpression: true, value: `$(local:timer)` },
+            colRunningFg: white,
+            colRunningBg: green,
+            colPausedFg: white,
+            colPausedBg: grey,
+            colExpiringFg: black,
+            colExpiringBg: yellow,
+            colExpiredFg: white,
+            colExpiredBg: red,
+            colNotRunningFg: white,
+            colNotRunningBg: black
           }
         }
       ],
       name: 'Current Time HH:MM:SS',
-      type: 'button',
+      type: 'simple',
       style: {
-        text: `$(cvmeventi-countdown:${key}-currentTimeHms)`,
+        text: `$(cvmeventi-countdown:$(local:timer)-currentTimeHms)`,
         size: '14',
         color: white,
         bgcolor: black
@@ -489,32 +521,35 @@ export function UpdatePresets(self: ModuleInstance): void {
       steps: [{
         down: [],
         up: [],
-      }]
+      }],
+      localVariables: [
+        { variableType: 'simple', variableName: 'timer', startupValue: timerId, headline: 'Timer ID' }
+      ]
     }
-    presets[`${key}-currentTimeMs`] = {
-      category: `${self.timers[key].name}: Current Time`,
+    presets[`${timerId}-currentTimeMs`] = {
+      //category: `${self.timers[key].name}: Current Time`,
       feedbacks: [
         {
           feedbackId: 'state_color',
           options: {
-            'timerId': key,
-            'colRunningFg': white,
-            'colRunningBg': green,
-            'colPausedFg': white,
-            'colPausedBg': grey,
-            'colExpiringFg': black,
-            'colExpiringBg': yellow,
-            'colExpiredFg': white,
-            'colExpiredBg': red,
-            'colNotRunningFg': white,
-            'colNotRunningBg': black
+            timerId: { isExpression: true, value: `$(local:timer)` },
+            colRunningFg: white,
+            colRunningBg: green,
+            colPausedFg: white,
+            colPausedBg: grey,
+            colExpiringFg: black,
+            colExpiringBg: yellow,
+            colExpiredFg: white,
+            colExpiredBg: red,
+            colNotRunningFg: white,
+            colNotRunningBg: black
           }
         }
       ],
       name: 'Current Time MM:SS',
-      type: 'button',
+      type: 'simple',
       style: {
-        text: `$(cvmeventi-countdown:${key}-currentTimeMs)`,
+        text: `$(cvmeventi-countdown:$(local:timer)-currentTimeMs)`,
         size: '24',
         color: white,
         bgcolor: black
@@ -522,32 +557,35 @@ export function UpdatePresets(self: ModuleInstance): void {
       steps: [{
         down: [],
         up: [],
-      }]
+      }],
+      localVariables: [
+        { variableType: 'simple', variableName: 'timer', startupValue: timerId, headline: 'Timer ID' }
+      ]
     }
-    presets[`${key}-currentState`] = {
-      category: `${self.timers[key].name}: Current Time`,
+    presets[`${timerId}-currentState`] = {
+      //category: `${self.timers[key].name}: Current Time`,
       feedbacks: [
         {
           feedbackId: 'state_color',
           options: {
-            'timerId': key,
-            'colRunningFg': white,
-            'colRunningBg': green,
-            'colPausedFg': white,
-            'colPausedBg': grey,
-            'colExpiringFg': black,
-            'colExpiringBg': yellow,
-            'colExpiredFg': white,
-            'colExpiredBg': red,
-            'colNotRunningFg': white,
-            'colNotRunningBg': black
+            timerId: { isExpression: true, value: `$(local:timer)` },
+            colRunningFg: white,
+            colRunningBg: green,
+            colPausedFg: white,
+            colPausedBg: grey,
+            colExpiringFg: black,
+            colExpiringBg: yellow,
+            colExpiredFg: white,
+            colExpiredBg: red,
+            colNotRunningFg: white,
+            colNotRunningBg: black
           }
         }
       ],
       name: 'Current State',
-      type: 'button',
+      type: 'simple',
       style: {
-        text: `$(cvmeventi-countdown:${key}-state)`,
+        text: `$(cvmeventi-countdown:$(local:timer)-state)`,
         size: 'auto',
         color: white,
         bgcolor: black
@@ -555,33 +593,36 @@ export function UpdatePresets(self: ModuleInstance): void {
       steps: [{
         down: [],
         up: [],
-      }]
+      }],
+      localVariables: [
+        { variableType: 'simple', variableName: 'timer', startupValue: timerId, headline: 'Timer ID' }
+      ]
     }
 
-    presets[`${key}-setTimeHms`] = {
-      category: `${self.timers[key].name}: Set Time`,
+    presets[`${timerId}-setTimeHms`] = {
+      //category: `${self.timers[key].name}: Set Time`,
       feedbacks: [
         {
           feedbackId: 'state_color',
           options: {
-            'timerId': key,
-            'colRunningFg': white,
-            'colRunningBg': green,
-            'colPausedFg': white,
-            'colPausedBg': grey,
-            'colExpiringFg': black,
-            'colExpiringBg': yellow,
-            'colExpiredFg': white,
-            'colExpiredBg': red,
-            'colNotRunningFg': white,
-            'colNotRunningBg': black
+            timerId: { isExpression: true, value: `$(local:timer)` },
+            colRunningFg: white,
+            colRunningBg: green,
+            colPausedFg: white,
+            colPausedBg: grey,
+            colExpiringFg: black,
+            colExpiringBg: yellow,
+            colExpiredFg: white,
+            colExpiredBg: red,
+            colNotRunningFg: white,
+            colNotRunningBg: black
           }
         }
       ],
       name: 'Set Time HH:MM:SS',
-      type: 'button',
+      type: 'simple',
       style: {
-        text: `$(cvmeventi-countdown:${key}-setTimeHms)`,
+        text: `$(cvmeventi-countdown:$(local:timer)-setTimeHms)`,
         size: '14',
         color: white,
         bgcolor: black
@@ -589,32 +630,35 @@ export function UpdatePresets(self: ModuleInstance): void {
       steps: [{
         down: [],
         up: [],
-      }]
+      }],
+      localVariables: [
+        { variableType: 'simple', variableName: 'timer', startupValue: timerId, headline: 'Timer ID' }
+      ]
     }
-    presets[`${key}-setTimeMs`] = {
-      category: `${self.timers[key].name}: Set Time`,
+    presets[`${timerId}-setTimeMs`] = {
+      //category: `${self.timers[key].name}: Set Time`,
       feedbacks: [
         {
           feedbackId: 'state_color',
           options: {
-            'timerId': key,
-            'colRunningFg': white,
-            'colRunningBg': green,
-            'colPausedFg': white,
-            'colPausedBg': grey,
-            'colExpiringFg': black,
-            'colExpiringBg': yellow,
-            'colExpiredFg': white,
-            'colExpiredBg': red,
-            'colNotRunningFg': white,
-            'colNotRunningBg': black
+            timerId: { isExpression: true, value: `$(local:timer)` },
+            colRunningFg: white,
+            colRunningBg: green,
+            colPausedFg: white,
+            colPausedBg: grey,
+            colExpiringFg: black,
+            colExpiringBg: yellow,
+            colExpiredFg: white,
+            colExpiredBg: red,
+            colNotRunningFg: white,
+            colNotRunningBg: black
           }
         }
       ],
       name: 'Set Time MM:SS',
-      type: 'button',
+      type: 'simple',
       style: {
-        text: `$(cvmeventi-countdown:${key}-setTimeMs)`,
+        text: `$(cvmeventi-countdown:$(local:timer)-setTimeMs)`,
         size: '24',
         color: white,
         bgcolor: black
@@ -622,9 +666,126 @@ export function UpdatePresets(self: ModuleInstance): void {
       steps: [{
         down: [],
         up: [],
-      }]
+      }],
+      localVariables: [
+        { variableType: 'simple', variableName: 'timer', startupValue: timerId, headline: 'Timer ID' }
+      ]
     }
   })
 
-  self.setPresetDefinitions(presets);
+  const structure: CompanionPresetSection[] = [
+    {
+      id: 'control',
+      name: 'Control',
+      definitions: Object.entries(self.timers).map(([timerId, timer]): CompanionPresetGroup => {
+        return {
+          type: 'simple',
+          presets: [
+            `${timerId}-startTimer`,
+            `${timerId}-pauseTimer`,
+            `${timerId}-toggleTimer`,
+            `${timerId}-resumeTimer`,
+            `${timerId}-resetTimer`,
+          ],
+          id: `${timerId}-control`,
+          name: `${timer.name}`
+        }
+      })
+    },
+    {
+      id: 'current-time',
+      name: 'Current time',
+      definitions: Object.entries(self.timers).map(([timerId, timer]): CompanionPresetGroup => {
+        return {
+          type: 'simple',
+          presets: [
+            `${timerId}-currentTimeHms`,
+            `${timerId}-currentTimeMs`,
+            `${timerId}-currentState`,
+          ],
+          id: `${timerId}-current-time`,
+          name: `${timer.name}`
+        }
+      })
+    },
+    {
+      id: 'set-time',
+      name: 'Set time',
+      definitions: Object.entries(self.timers).map(([timerId, timer]): CompanionPresetGroup => {
+        return {
+          type: 'simple',
+          presets: [
+            `${timerId}-setTimeHms`,
+            `${timerId}-setTimeMs`,
+          ],
+          id: `${timerId}-set-time`,
+          name: `${timer.name}`
+        }
+      })
+    },
+    {
+      id: 'jog-current',
+      name: 'Jog current time',
+      definitions: Object.entries(self.timers).map(([timerId, timer]): CompanionPresetGroup => {
+        return {
+          type: 'simple',
+          presets: [
+            `${timerId}-jogCurrentTimerPlus1`,
+            `${timerId}-jogCurrentTimerPlus5`,
+            `${timerId}-jogCurrentTimerPlus10`,
+            `${timerId}-jogCurrentTimerMinus1`,
+            `${timerId}-jogCurrentTimerMinus5`,
+            `${timerId}-jogCurrentTimerMinus10`,
+          ],
+          id: `${timerId}-jog-current`,
+          name: `${timer.name}`
+        }
+      })
+    },
+    {
+      id: 'jog-set',
+      name: 'Jog set time',
+      definitions: Object.entries(self.timers).map(([timerId, timer]): CompanionPresetGroup => {
+        return {
+          type: 'simple',
+          presets: [
+            `${timerId}-jogSetTimerPlus5`,
+            `${timerId}-jogSetTimerPlus1`,
+            `${timerId}-jogSetTimerPlus10`,
+            `${timerId}-jogSetTimerMinus1`,
+            `${timerId}-jogSetTimerMinus5`,
+            `${timerId}-jogSetTimerMinus10`,
+          ],
+          id: `${timerId}-jog-set`,
+          name: `${timer.name}`
+        }
+      })
+    },
+    {
+      id: 'time-presets',
+      name: 'Time presets',
+      definitions: Object.entries(self.timers).map(([timerId, timer]): CompanionPresetGroup => {
+        return {
+          type: 'simple',
+          presets: minutes.map(time => `${timerId}-timePreset${time}`),
+          id: `${timerId}-time-presets`,
+          name: `${timer.name}`
+        }
+      })
+    },
+    {
+      id: 'time-presets-as',
+      name: 'Time presets (auto start)',
+      definitions: Object.entries(self.timers).map(([timerId, timer]): CompanionPresetGroup => {
+        return {
+          type: 'simple',
+          presets: minutes.map(time => `${timerId}-timePresetAS${time}`),
+          id: `${timerId}-time-presets-as`,
+          name: `${timer.name}`
+        }
+      })
+    }
+  ]
+
+  self.setPresetDefinitions(structure, presets);
 }

@@ -1,6 +1,7 @@
-import type { ModuleInstance } from './main.js'
+import type ModuleInstance from './main.js'
 import got from 'got'
-import {CompanionActionDefinitions, CompanionInputFieldDropdown, InstanceStatus} from '@companion-module/base'
+import type { CompanionActionDefinitions, CompanionInputFieldDropdown } from '@companion-module/base'
+import { InstanceStatus } from '@companion-module/base'
 
 export function UpdateActions(self: ModuleInstance): void {
     const doAction = async (path: string) => {
@@ -77,8 +78,8 @@ export function UpdateActions(self: ModuleInstance): void {
                 max: 23,
                 default: 0,
                 step: 1,
-                required: true,
-                range: false
+                range: false,
+                asInteger: true,
             },
             {
                 type: 'number',
@@ -89,8 +90,8 @@ export function UpdateActions(self: ModuleInstance): void {
                 max: 59,
                 default: 5,
                 step: 1,
-                required: true,
-                range: false
+                range: false,
+                asInteger: true,
             },
             {
                 type: 'number',
@@ -101,8 +102,8 @@ export function UpdateActions(self: ModuleInstance): void {
                 max: 59,
                 default: 0,
                 step: 1,
-                required: true,
-                range: false
+                range: false,
+                asInteger: true,
             }
         ],
         callback: async (event) => {
@@ -122,8 +123,8 @@ export function UpdateActions(self: ModuleInstance): void {
                 max: 23,
                 default: 0,
                 step: 1,
-                required: true,
-                range: false
+                range: false,
+                asInteger: true,
             },
             {
                 type: 'number',
@@ -134,8 +135,8 @@ export function UpdateActions(self: ModuleInstance): void {
                 max: 59,
                 default: 5,
                 step: 1,
-                required: true,
-                range: false
+                range: false,
+                asInteger: true,
             },
             {
                 type: 'number',
@@ -146,8 +147,8 @@ export function UpdateActions(self: ModuleInstance): void {
                 max: 59,
                 default: 0,
                 step: 1,
-                required: true,
-                range: false
+                range: false,
+                asInteger: true,
             }
         ],
         callback: async (event) => {
@@ -167,8 +168,8 @@ export function UpdateActions(self: ModuleInstance): void {
                 max: 23,
                 default: 0,
                 step: 1,
-                required: true,
-                range: false
+                range: false,
+                asInteger: true,
             },
             {
                 type: 'number',
@@ -179,8 +180,8 @@ export function UpdateActions(self: ModuleInstance): void {
                 max: 59,
                 default: 5,
                 step: 1,
-                required: true,
-                range: false
+                range: false,
+                asInteger: true,
             },
             {
                 type: 'number',
@@ -191,12 +192,29 @@ export function UpdateActions(self: ModuleInstance): void {
                 max: 59,
                 default: 0,
                 step: 1,
-                required: true,
-                range: false
+                range: false,
+                asInteger: true,
             }
         ],
         callback: async (event) => {
             await doAction(`/timer/${event.options['timerId']}/jog-current/${event.options.hours}/${event.options.minutes}/${event.options.seconds}`)
+        }
+    };
+
+    actions['set-message'] = {
+        name: 'Set Message',
+        options: [
+            timerIdOption,
+            {
+                type: 'textinput',
+                label: 'Message',
+                id: 'message',
+                tooltip: 'The message to show, empty to remove current',
+                useVariables: true,
+            },
+        ],
+        callback: async (event) => {
+            await doAction(`/timer/${event.options['timerId']}/message/${encodeURIComponent(event.options.message?.toString() ?? '')}`)
         }
     };
 
