@@ -5,7 +5,8 @@ import { InstanceStatus } from '@companion-module/base'
 
 export function UpdateActions(self: ModuleInstance): void {
     const doAction = async (path: string) => {
-        const baseUrl = `http://${self.config.ip}:${self.config.port}`;
+        const { ip, port } = self.getTarget();
+        const baseUrl = `http://${ip}:${port}`;
         const url = `${baseUrl}${path}`;
 
         try {

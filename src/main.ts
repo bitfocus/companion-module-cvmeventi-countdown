@@ -82,9 +82,21 @@ export default class ModuleInstance extends InstanceBase<ModuleTypes> {
     this.updateStatus(InstanceStatus.Disconnected, "Disabled");
   }
 
+  // A discovered device takes precedence over the manual IP/port
+  getTarget(): { ip: string, port: number } {
+    const bonjourHost = this.config.bonjourHost
+    if (bonjourHost) {
+      const separator = bonjourHost.lastIndexOf(':')
+      return {
+        ip: bonjourHost.slice(0, separator),
+        port: Number(bonjourHost.slice(separator + 1)),
+      }
+    }
+    return { ip: this.config.ip, port: this.config.port }
+  }
+
   async loadTimers() {
-    const ip = this.config.ip;
-    const port = this.config.port;
+    const { ip, port } = this.getTarget();
     try {
       const response = await fetch(`http://${ip}:${port}/timers`)
       this.timers = await response.json() as Timers
@@ -127,8 +139,7 @@ export default class ModuleInstance extends InstanceBase<ModuleTypes> {
       clearTimeout(this.reconnectTimer);
       this.reconnectTimer = null;
     }
-    const ip = this.config.ip;
-    const port = this.config.port;
+    const { ip, port } = this.getTarget();
     this.updateStatus(InstanceStatus.Connecting);
     if (!ip || !port) {
       this.updateStatus(InstanceStatus.BadConfig, `Configuration error - no WebSocket host and/or port defined`);

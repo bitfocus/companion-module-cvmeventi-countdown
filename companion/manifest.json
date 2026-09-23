@@ -5,7 +5,7 @@
 	"name": "cvmeventi-countdown",
 	"shortname": "cvmeventi-countdown",
 	"description": "",
-	"version": "3.0.3",
+	"version": "3.1.0",
 	"license": "MIT",
 	"repository": "https://github.com/bitfocus/companion-module-cvmeventi-countdown.git",
 	"bugs": "https://github.com/bitfocus/companion-module-cvmeventi-countdown/issues",
@@ -31,5 +31,11 @@
 		"Timer",
 		"Countdown",
 		"Clock"
-	]
+	],
+	"bonjourQueries": {
+		"bonjourHost": {
+			"type": "countdown",
+			"protocol": "tcp"
+		}
+	}
 }
