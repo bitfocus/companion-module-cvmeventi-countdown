@@ -60,9 +60,12 @@ export function UpdateVariableDefinitions(self: ModuleInstance): void {
   setTimeS: {
     name: 'Set time (seconds only)',
   },
-  timerAndsAt: {
-    name: 'Timer ends at (mm:ss)',
-  }
+  timerEndsAt: {
+    name: 'Timer ends at (hh:mm, clock time)',
+  },
+  ownEndsAt: {
+    name: 'Timer ends at, ignoring playback source (hh:mm, clock time)',
+  },
 }
 
   let variables: CompanionVariableDefinitions = {}
@@ -95,7 +98,8 @@ export function UpdateVariableDefinitions(self: ModuleInstance): void {
       [`${key}-setTimeM`]: '00',
       [`${key}-setTimeS`]: '00',
       [`${key}-setTime`]: '0',
-      [`${key}-timerEndsAt`]: '00:00',
+      [`${key}-timerEndsAt`]: '',
+      [`${key}-ownEndsAt`]: '',
     }
   })
 

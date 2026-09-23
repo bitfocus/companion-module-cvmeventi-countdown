@@ -29,6 +29,7 @@ interface TimerState {
   timeSetOnCurrentTimerM?: string
   timeSetOnCurrentTimerS?: string
   timerEndsAt?: string
+  ownEndsAt?: string
 }
 
 interface TimerStates {
