@@ -274,222 +274,267 @@ export function UpdatePresets(self: ModuleInstance): void {
       ]
     };
     presets[`${timerId}-jogSetTimerMinus1`] = {
-      //category: `${self.timers[key].name}: Jog Set Timer`,
-      feedbacks: [],
-      name: '-1 Jog Set Timer',
-      type: 'simple',
-      style: {
-        text: '-1',
-        size: '30',
-        color: white,
-        bgcolor: black
-      },
-      steps: [{
-        down: [{
-          actionId: 'jog-set',
-          options: {
-            timerId: { isExpression: true, value: `$(local:timer)` },
-            hours: 0,
-            minutes: -1,
-            seconds: 0,
-          },
-        }],
-        up: [],
-      }]
-    };
+			//category: `${self.timers[key].name}: Jog Set Timer`,
+			feedbacks: [],
+			name: '-1 Jog Set Timer',
+			type: 'simple',
+			style: {
+				text: '-1',
+				size: '30',
+				color: white,
+				bgcolor: black,
+			},
+			steps: [
+				{
+					down: [
+						{
+							actionId: 'jog-set',
+							options: {
+								timerId: { isExpression: true, value: `$(local:timer)` },
+								hours: 0,
+								minutes: -1,
+								seconds: 0,
+							},
+						},
+					],
+					up: [],
+				},
+			],
+			localVariables: [{ variableType: 'simple', variableName: 'timer', startupValue: timerId, headline: 'Timer ID' }],
+		}
 
     presets[`${timerId}-jogSetTimerMinus5`] = {
-      //category: `${self.timers[key].name}: Jog Set Timer`,
-      feedbacks: [],
-      name: '-5 Jog Set Timer',
-      type: 'simple',
-      style: {
-        text: '-5',
-        size: '30',
-        color: white,
-        bgcolor: black
-      },
-      steps: [{
-        down: [{
-          actionId: 'jog-set',
-          options: {
-            timerId: { isExpression: true, value: `$(local:timer)` },
-            hours: 0,
-            minutes: -5,
-            seconds: 0,
-          },
-        }],
-        up: [],
-      }]
-    };
+			//category: `${self.timers[key].name}: Jog Set Timer`,
+			feedbacks: [],
+			name: '-5 Jog Set Timer',
+			type: 'simple',
+			style: {
+				text: '-5',
+				size: '30',
+				color: white,
+				bgcolor: black,
+			},
+			steps: [
+				{
+					down: [
+						{
+							actionId: 'jog-set',
+							options: {
+								timerId: { isExpression: true, value: `$(local:timer)` },
+								hours: 0,
+								minutes: -5,
+								seconds: 0,
+							},
+						},
+					],
+					up: [],
+				},
+			],
+			localVariables: [{ variableType: 'simple', variableName: 'timer', startupValue: timerId, headline: 'Timer ID' }],
+		}
     presets[`${timerId}-jogSetTimerMinus10`] = {
-      //category: `${self.timers[key].name}: Jog Set Timer`,
-      feedbacks: [],
-      name: '-10 Jog Set Timer',
-      type: 'simple',
-      style: {
-        text: '-10',
-        size: '30',
-        color: white,
-        bgcolor: black
-      },
-      steps: [{
-        down: [{
-          actionId: 'jog-set',
-          options: {
-            timerId: { isExpression: true, value: `$(local:timer)` },
-            hours: 0,
-            minutes: -10,
-            seconds: 0,
-          },
-        }],
-        up: [],
-      }]
-    };
+			//category: `${self.timers[key].name}: Jog Set Timer`,
+			feedbacks: [],
+			name: '-10 Jog Set Timer',
+			type: 'simple',
+			style: {
+				text: '-10',
+				size: '30',
+				color: white,
+				bgcolor: black,
+			},
+			steps: [
+				{
+					down: [
+						{
+							actionId: 'jog-set',
+							options: {
+								timerId: { isExpression: true, value: `$(local:timer)` },
+								hours: 0,
+								minutes: -10,
+								seconds: 0,
+							},
+						},
+					],
+					up: [],
+				},
+			],
+			localVariables: [{ variableType: 'simple', variableName: 'timer', startupValue: timerId, headline: 'Timer ID' }],
+		}
     presets[`${timerId}-jogCurrentTimerPlus1`] = {
-      //category: `${self.timers[key].name}: Jog Current Timer`,
-      feedbacks: [],
-      name: '+1 Jog Current Timer',
-      type: 'simple',
-      style: {
-        text: '+1',
-        size: '30',
-        color: white,
-        bgcolor: black
-      },
-      steps: [{
-        down: [{
-          actionId: 'jog-current',
-          options: {
-            timerId: { isExpression: true, value: `$(local:timer)` },
-            hours: 0,
-            minutes: 1,
-            seconds: 0,
-          },
-        }],
-        up: [],
-      }]
-    };
+			//category: `${self.timers[key].name}: Jog Current Timer`,
+			feedbacks: [],
+			name: '+1 Jog Current Timer',
+			type: 'simple',
+			style: {
+				text: '+1',
+				size: '30',
+				color: white,
+				bgcolor: black,
+			},
+			steps: [
+				{
+					down: [
+						{
+							actionId: 'jog-current',
+							options: {
+								timerId: { isExpression: true, value: `$(local:timer)` },
+								hours: 0,
+								minutes: 1,
+								seconds: 0,
+							},
+						},
+					],
+					up: [],
+				},
+			],
+			localVariables: [{ variableType: 'simple', variableName: 'timer', startupValue: timerId, headline: 'Timer ID' }],
+		}
     presets[`${timerId}-jogCurrentTimerPlus5`] = {
-      //category: `${self.timers[key].name}: Jog Current Timer`,
-      feedbacks: [],
-      name: '+5 Jog Current Timer',
-      type: 'simple',
-      style: {
-        text: '+5',
-        size: '30',
-        color: white,
-        bgcolor: black
-      },
-      steps: [{
-        down: [{
-          actionId: 'jog-current',
-          options: {
-            timerId: { isExpression: true, value: `$(local:timer)` },
-            hours: 0,
-            minutes: 5,
-            seconds: 0,
-          },
-        }],
-        up: [],
-      }]
-    };
+			//category: `${self.timers[key].name}: Jog Current Timer`,
+			feedbacks: [],
+			name: '+5 Jog Current Timer',
+			type: 'simple',
+			style: {
+				text: '+5',
+				size: '30',
+				color: white,
+				bgcolor: black,
+			},
+			steps: [
+				{
+					down: [
+						{
+							actionId: 'jog-current',
+							options: {
+								timerId: { isExpression: true, value: `$(local:timer)` },
+								hours: 0,
+								minutes: 5,
+								seconds: 0,
+							},
+						},
+					],
+					up: [],
+				},
+			],
+			localVariables: [{ variableType: 'simple', variableName: 'timer', startupValue: timerId, headline: 'Timer ID' }],
+		}
     presets[`${timerId}-jogCurrentTimerPlus10`] = {
-      //category: `${self.timers[key].name}: Jog Current Timer`,
-      feedbacks: [],
-      name: '+10 Jog Current Timer',
-      type: 'simple',
-      style: {
-        text: '+10',
-        size: '30',
-        color: white,
-        bgcolor: black
-      },
-      steps: [{
-        down: [{
-          actionId: 'jog-current',
-          options: {
-            timerId: { isExpression: true, value: `$(local:timer)` },
-            hours: 0,
-            minutes: 10,
-            seconds: 0,
-          },
-        }],
-        up: [],
-      }]
-    };
+			//category: `${self.timers[key].name}: Jog Current Timer`,
+			feedbacks: [],
+			name: '+10 Jog Current Timer',
+			type: 'simple',
+			style: {
+				text: '+10',
+				size: '30',
+				color: white,
+				bgcolor: black,
+			},
+			steps: [
+				{
+					down: [
+						{
+							actionId: 'jog-current',
+							options: {
+								timerId: { isExpression: true, value: `$(local:timer)` },
+								hours: 0,
+								minutes: 10,
+								seconds: 0,
+							},
+						},
+					],
+					up: [],
+				},
+			],
+			localVariables: [{ variableType: 'simple', variableName: 'timer', startupValue: timerId, headline: 'Timer ID' }],
+		}
     presets[`${timerId}-jogCurrentTimerMinus1`] = {
-      //category: `${self.timers[key].name}: Jog Current Timer`,
-      feedbacks: [],
-      name: '-1 Jog Current Timer',
-      type: 'simple',
-      style: {
-        text: '-1',
-        size: '30',
-        color: white,
-        bgcolor: black
-      },
-      steps: [{
-        down: [{
-          actionId: 'jog-current',
-          options: {
-            timerId: { isExpression: true, value: `$(local:timer)` },
-            hours: 0,
-            minutes: -1,
-            seconds: 0,
-          },
-        }],
-        up: [],
-      }]
-    };
+			//category: `${self.timers[key].name}: Jog Current Timer`,
+			feedbacks: [],
+			name: '-1 Jog Current Timer',
+			type: 'simple',
+			style: {
+				text: '-1',
+				size: '30',
+				color: white,
+				bgcolor: black,
+			},
+			steps: [
+				{
+					down: [
+						{
+							actionId: 'jog-current',
+							options: {
+								timerId: { isExpression: true, value: `$(local:timer)` },
+								hours: 0,
+								minutes: -1,
+								seconds: 0,
+							},
+						},
+					],
+					up: [],
+				},
+			],
+			localVariables: [{ variableType: 'simple', variableName: 'timer', startupValue: timerId, headline: 'Timer ID' }],
+		}
     presets[`${timerId}-jogCurrentTimerMinus5`] = {
-      //category: `${self.timers[key].name}: Jog Current Timer`,
-      feedbacks: [],
-      name: '-5 Jog Current Timer',
-      type: 'simple',
-      style: {
-        text: '-5',
-        size: '30',
-        color: white,
-        bgcolor: black
-      },
-      steps: [{
-        down: [{
-          actionId: 'jog-current',
-          options: {
-            timerId: { isExpression: true, value: `$(local:timer)` },
-            hours: 0,
-            minutes: -5,
-            seconds: 0,
-          },
-        }],
-        up: [],
-      }]
-    };
+			//category: `${self.timers[key].name}: Jog Current Timer`,
+			feedbacks: [],
+			name: '-5 Jog Current Timer',
+			type: 'simple',
+			style: {
+				text: '-5',
+				size: '30',
+				color: white,
+				bgcolor: black,
+			},
+			steps: [
+				{
+					down: [
+						{
+							actionId: 'jog-current',
+							options: {
+								timerId: { isExpression: true, value: `$(local:timer)` },
+								hours: 0,
+								minutes: -5,
+								seconds: 0,
+							},
+						},
+					],
+					up: [],
+				},
+			],
+			localVariables: [{ variableType: 'simple', variableName: 'timer', startupValue: timerId, headline: 'Timer ID' }],
+		}
     presets[`${timerId}-jogCurrentTimerMinus10`] = {
-      //category: `${self.timers[key].name}: Jog Current Timer`,
-      feedbacks: [],
-      name: '-10 Jog Current Timer',
-      type: 'simple',
-      style: {
-        text: '-10',
-        size: '30',
-        color: white,
-        bgcolor: black
-      },
-      steps: [{
-        down: [{
-          actionId: 'jog-current',
-          options: {
-            timerId: { isExpression: true, value: `$(local:timer)` },
-            hours: 0,
-            minutes: -10,
-            seconds: 0,
-          },
-        }],
-        up: [],
-      }]
-    };
+			//category: `${self.timers[key].name}: Jog Current Timer`,
+			feedbacks: [],
+			name: '-10 Jog Current Timer',
+			type: 'simple',
+			style: {
+				text: '-10',
+				size: '30',
+				color: white,
+				bgcolor: black,
+			},
+			steps: [
+				{
+					down: [
+						{
+							actionId: 'jog-current',
+							options: {
+								timerId: { isExpression: true, value: `$(local:timer)` },
+								hours: 0,
+								minutes: -10,
+								seconds: 0,
+							},
+						},
+					],
+					up: [],
+				},
+			],
+			localVariables: [{ variableType: 'simple', variableName: 'timer', startupValue: timerId, headline: 'Timer ID' }],
+		}
     presets[`${timerId}-currentTimeHms`] = {
       //category: `${self.timers[key].name}: Current Time`,
       feedbacks: [
